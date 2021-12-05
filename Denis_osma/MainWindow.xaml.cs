@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,17 +72,32 @@ namespace Denis_osma
 
         private void SaveFile_Click(object sender, RoutedEventArgs e)//обработчик сохранения
         {
-            shop.Save();
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if ((bool)saveFileDialog.ShowDialog())
+            {
+                using (FileStream fs = (FileStream)saveFileDialog.OpenFile())
+                {
+                    shop.Save(fs);
+                }
+            }
+                
         }
 
         private async void LoadFile_ClickAsync(object sender, RoutedEventArgs e)//обработчик загрузки
         {
-            await shop.Load();
-            foreach (var i in shop.GetOrderArray()) // добавления заказов в коллекцию
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if ((bool)openFileDialog.ShowDialog())
             {
-                if (i != null)
+                using (FileStream fs = (FileStream)openFileDialog.OpenFile())
                 {
-                    Orders.Add(i);
+                    await shop.Load(fs);
+                    foreach (var i in shop.GetOrderArray()) // добавления заказов в коллекцию
+                    {
+                        if (i != null)
+                        {
+                            Orders.Add(i);
+                        }
+                    }
                 }
             }
         }

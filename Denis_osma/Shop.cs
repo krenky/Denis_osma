@@ -103,24 +103,24 @@ namespace Denis_osma
             }
             return data;
         }
-        public bool Save()
+        public bool Save(FileStream fs)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            if ((bool)saveFileDialog.ShowDialog())
-                using (FileStream fs = (FileStream)saveFileDialog.OpenFile())
-                {
+            //SaveFileDialog saveFileDialog = new SaveFileDialog();
+            //if ((bool)saveFileDialog.ShowDialog())
+            //    using (FileStream fs = (FileStream)saveFileDialog.OpenFile())
+            //    {
                     JsonSerializer.Serialize<Order[]>(new Utf8JsonWriter(fs), orderArray);
                     return true;
-                }
-            return false;
+            //    }
+            //return false;
         }
-        public async Task Load()
+        public async Task Load(FileStream fs)
         {
             Order[] orders;
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if ((bool)openFileDialog.ShowDialog())
-                using (FileStream fs = (FileStream)openFileDialog.OpenFile())
-                {
+            //OpenFileDialog openFileDialog = new OpenFileDialog();
+            //if ((bool)openFileDialog.ShowDialog())
+            //    using (FileStream fs = (FileStream)openFileDialog.OpenFile())
+            //    {
                     orders = await JsonSerializer.DeserializeAsync<Order[]>(fs);
                     OrderCount = 0;
                     ArraySize = orderArray.Length;
@@ -136,7 +136,7 @@ namespace Denis_osma
                             break;
                         }
                     }
-                }
+                //}
         }
     }
 }
