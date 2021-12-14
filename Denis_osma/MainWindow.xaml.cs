@@ -35,15 +35,39 @@ namespace Denis_osma
 
         private void AddOrder_Click(object sender, RoutedEventArgs e)//обработчик добавления заказа
         {
-            Order order = new Order(TextBoxName.Text);
-            shop.AddOrder(order);
-            Orders.Add(order);
+            try
+            {
+                Order order = new Order(TextBoxName.Text);
+                shop.AddOrder(order);
+                Orders.Add(order);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+
+            }
+            
         }
 
         private void DelOrder_Click(object sender, RoutedEventArgs e)//обработчик удаления заказа
         {
-            Order order = DataOrders.SelectedItem as Order;
-            Orders.Remove(order);
+            try
+            {
+                Order order = DataOrders.SelectedItem as Order;
+                Orders.Remove(order);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+
+            }
+            
         }
 
         private void DataOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)//обработчик смены фокуса в таблицы
@@ -57,17 +81,41 @@ namespace Denis_osma
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)//обработчик добавления продуктов
         {
-            Order order = shop.FindOrder(DataOrders.SelectedItem as Order);
-            order.AddProduct(TextBoxProduct.Text, Convert.ToInt32(TextBoxPriceProduct.Text));
-            DataProducts.ItemsSource = order?.GetProduct();
+            try
+            {
+                Order order = shop.FindOrder(DataOrders.SelectedItem as Order);
+                order.AddProduct(TextBoxProduct.Text, Convert.ToInt32(TextBoxPriceProduct.Text));
+                DataProducts.ItemsSource = order?.GetProduct();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+
+            }
+            
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)//обработчик удаления продуктов
         {
-            Product product = DataProducts.SelectedItem as Product;
-            Order order = shop.FindOrder(DataOrders.SelectedItem as Order);
-            order.DeleteProduct(product.Name);
-            DataProducts.ItemsSource = order?.GetProduct();
+            try
+            {
+                Product product = DataProducts.SelectedItem as Product;
+                Order order = shop.FindOrder(DataOrders.SelectedItem as Order);
+                order.DeleteProduct(product.Name);
+                DataProducts.ItemsSource = order?.GetProduct();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+
+            }
+            
         }
 
         private void SaveFile_Click(object sender, RoutedEventArgs e)//обработчик сохранения
@@ -101,35 +149,59 @@ namespace Denis_osma
                 }
             }
         }
-
+        /// <summary>
+        /// Проверка занчения нажатой кнопки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxName_PreviewTextInput(object sender, TextCompositionEventArgs e)//обработчик
         {
             e.Handled = !(Char.IsLetter(e.Text, 0));
         }
-
+        /// <summary>
+        /// Проверка нажатой кнопки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxName_PreviewKeyDown(object sender, KeyEventArgs e)//обработчик
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
         }
-
+        /// <summary>
+        /// Проверка занчения нажатой кнопки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxProduct_PreviewTextInput(object sender, TextCompositionEventArgs e)//обработчик
         {
             e.Handled = !(Char.IsLetter(e.Text, 0));
         }
-
+        /// <summary>
+        /// Проверка нажатой кнопки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxProduct_PreviewKeyDown(object sender, KeyEventArgs e)//обработчик
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
         }
-
+        /// <summary>
+        /// Проверка нажатой кнопки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxPriceProduct_PreviewKeyDown(object sender, KeyEventArgs e)//обработчик
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
         }
-
+        /// <summary>
+        /// Проверка занчения нажатой кнопки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxPriceProduct_PreviewTextInput(object sender, TextCompositionEventArgs e)//обработчик
         {
             e.Handled = !(Char.IsDigit(e.Text, 0));
